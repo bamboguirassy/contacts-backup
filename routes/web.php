@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Contact;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +16,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return redirect()->route('home');
+})->name('index')->middleware('auth');
+
+Route::get('/home', function () {
+    $contacts = Contact::where('user_id',Auth::id())
+    ->get();
+    return view('contacts',compact('contacts'));
+})->name('home')->middleware('auth');
+
+Auth::routes();

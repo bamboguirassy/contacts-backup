@@ -5,17 +5,27 @@
                 <a class="pull-left" href="#">
                     <img class="thumb-lg img-circle bx-s" src="https://bootdey.com/img/Content/user_1.jpg" alt="">
                 </a>
-                <div class="pull-right btn-group-sm">
-                    <a href="#" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit">
-                        <i class="fa fa-pencil"></i>
-                    </a>
-                    <a href="#" class="btn btn-danger tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete">
-                        <i class="fa fa-close"></i>
-                    </a>
-                </div>
+                <form action="{{ route('contact.destroy',['contact'=>$contact])}}" method="POST" class="inline">
+                    @csrf
+                    @method('delete')
+                    <div class="pull-right btn-group-sm">
+
+                        <!--<a href="#" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit">
+                            <i class="fa fa-pencil"></i>
+                        </a>-->
+                        <a  href="{{ route('contact.edit',compact('contact')) }}" class="btn btn-primary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                        <button type="submit" class="btn btn-danger tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete">
+                            <i class="fa fa-close"></i>
+                        </button>
+                    </div>
+                </form>
                 <div class="info">
-                    <h4>Jonathan Smith</h4>
-                    <p class="text-muted">Graphics Designer</p>
+                    <h4>{{ $contact->name}}</h4>
+                    <a href="tel:+221{{ $contact->telephonePrimaire }}">{{ $contact->telephonePrimaire }}</a><br>
+                    <a href = "mailto:{{ $contact->email }}">{{ $contact->email }}</a>
+                    <p class="text-muted">{{ $contact->adresse }}</p>
                 </div>
             </div>
             <div class="clearfix"></div>

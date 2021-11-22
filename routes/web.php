@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Contact;
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -26,3 +27,8 @@ Route::get('/home', function () {
 })->name('home')->middleware('auth');
 
 Auth::routes();
+
+Route::post('contact/search',[ContactController::class,'search'])->name('contact.search');
+Route::resource('contact',ContactController::class)->middleware('auth');
+
+

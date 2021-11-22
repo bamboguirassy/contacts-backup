@@ -7,14 +7,16 @@ use Illuminate\View\Component;
 
 class ContactItem extends Component
 {
+    public $contact;
     /**
      *
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(contact $contact)
     {
+        $this->contact = $contact;
     }
 
     /**

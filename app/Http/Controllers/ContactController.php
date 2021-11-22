@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class ContactController extends Controller
 {
@@ -14,7 +16,9 @@ class ContactController extends Controller
      */
     public function index()
     {
-        //
+        $contacts=Contact::all();
+        $users= auth()->user();
+        return view('contacts',compact('contacts','users'));
     }
 
     /**
@@ -24,7 +28,7 @@ class ContactController extends Controller
      */
     public function create()
     {
-        //
+        return view('new');
     }
 
     /**
@@ -35,7 +39,14 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:contacts,name',
+        ]);
+        $contact=new Contact($request->all());
+        $contact->user_id = Auth::id();
+        $contact->save();
+        //Contact::create($request->all());//l'ensemble des valeurs que l'utilisateur a ajouté dans le formulaire est enregistré dans le variable $request
+        return redirect()->route('contact.index');
     }
 
     /**
@@ -57,7 +68,7 @@ class ContactController extends Controller
      */
     public function edit(Contact $contact)
     {
-        //
+        return view('edit',compact('contact'));
     }
 
     /**
@@ -69,7 +80,11 @@ class ContactController extends Controller
      */
     public function update(Request $request, Contact $contact)
     {
-        //
+        $request->validate([
+            'name'=>Rule::unique('contacts')->ignore($contact),
+        ]);
+        $contact->update($request->all());
+        return redirect()->route('contact.index');
     }
 
     /**
@@ -80,6 +95,18 @@ class ContactController extends Controller
      */
     public function destroy(Contact $contact)
     {
-        //
+        $contact->delete();
+        return redirect()->route('contact.index');
     }
+
+    /**Méthode de recherche */
+    public function search(Request $request){
+        $request->validate(['motCle'=>'required|min:4']);
+        $motCle = $request->motCle;
+        $contacts = Contact::where('name','like','%'.$motCle.'%')
+        ->orWhere('code','like','%'.$motCle.'%')
+        ->get();
+        return view('contacts',compact('contacts'));
+    }
+
 }

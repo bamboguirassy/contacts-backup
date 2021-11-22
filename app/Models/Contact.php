@@ -8,4 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Contact extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'telephonePrimaire',
+        'telephoneSecondaire',
+        'email',
+        'adresse',
+        'profession',
+        'entreprise',
+        'user_id'
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

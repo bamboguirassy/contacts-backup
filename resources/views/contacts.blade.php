@@ -8,12 +8,16 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-body p-t-0">
-                <div class="input-group">
-                    <input type="text" id="example-input1-group2" name="example-input1-group2" class="form-control" placeholder="Search">
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-effect-ripple btn-primary"><i class="fa fa-search"></i></button>
-                    </span>
-                </div>
+                <form action="{{ route('contact.search') }}" method="post">
+                    @csrf
+                    <div class="form-group">
+                        <label for="motCle">Rechercher</label>
+                        <input type="text" id="motCle" name="motCle" class="form-control" placeholder="Search">
+                        <!--<span class="input-group-btn">
+                            <button type="button" class="btn btn-effect-ripple btn-primary"><i class="fa fa-search"></i></button>
+                        </span>-->
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -22,19 +26,6 @@
     @foreach ($contacts as $contact)
     <x-contact-item :contact="$contact" />
     @endforeach
-
-    <x-contact-item />
-    <x-contact-item />
-    <x-contact-item />
-    <x-contact-item />
-    <x-contact-item />
-    <x-contact-item />
-    <x-contact-item />
-    <x-contact-item />
-    <x-contact-item />
-    <x-contact-item />
-    <x-contact-item />
-    <x-contact-item />
 </div>
 </div>
 @endsection
